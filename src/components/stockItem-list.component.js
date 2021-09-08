@@ -92,6 +92,17 @@ export default class StockItemsList extends Component {
                 let value = currentStockItem[key];
                 if (Array.isArray(currentStockItem[key])) {
                     value = currentStockItem[key].length;
+
+                    // For stockItemCounts get all values added up as "totalStock"
+                    if (key === "stockItemCounts") {
+                        let totalStock = currentStockItem[key].reduce(
+                            (sum, element) => sum + element.stockItemCount, 0);
+                        stockItemElements.push({
+                            label: "Total in Stock",
+                            value: totalStock
+                        });
+                    }
+
                 }
                 // If we have a value then add to the display listing
                 if (value) {
@@ -127,7 +138,7 @@ export default class StockItemsList extends Component {
                     </ul>
                 </div>
 
-                <div className="row-cols-4">
+                <div className="row-cols-3">
                     <button
                         type="submit"
                         className="btn btn-primary"
@@ -146,14 +157,51 @@ export default class StockItemsList extends Component {
                         onClick={(e) => {
                             e.preventDefault();
                             if (this.binLocationId) {
-                                window.location.href = "/stockItems/add/" + this.binLocationId;
+
+                                // API example:
+                                // http://localhost:24326/api/stockadjustment/499?binLocation=887&adjustment=-9
+                                window.location.href = `/adjust/${currentStockItem.id}?binlocation=${this.binLocationId}`;
+
                             } else {
 
                                 // TODO: Implement a form which will present a list
-                                //  of binLocations when adding a new Bin Location
+                                //  of BinLocations when adding count on stockItem
                                 alert("Warning: Not Implemented.\n" +
-                                    "You must be viewing a BinLocation's Stock Item Listing.");
+                                    "You must be viewing a Bin Locations Stock Item.");
 
+                            }
+                        }}
+                    >Adjust
+                    </button>
+
+                    <button
+                        className="btn btn-secondary"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            if (this.binLocationId) {
+                                window.location.href = `/count/${currentStockItem.id}?binlocation=${this.binLocationId}`;
+                            } else {
+
+                                // TODO: Implement a form which will present a list
+                                //  of BinLocations when adding count on stockItem
+                                alert("Warning: Not Implemented.\n" +
+                                    "You must be viewing a Bin Locations Stock Item.");
+
+                            }
+                        }}
+                    >Count
+                    </button>
+
+                    <br/>
+
+                    <button
+                        className="btn btn-secondary"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            if (this.binLocationId) {
+                                window.location.href = "/stockItems/add/" + this.binLocationId;
+                            } else {
+                                window.location.href = "/stockItems/add/";
                             }
                         }}
                     >New
