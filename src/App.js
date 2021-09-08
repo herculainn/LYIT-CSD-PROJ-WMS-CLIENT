@@ -12,6 +12,9 @@ import BinLocationsList from "./components/binLocation-list.component";
 import StockItem from "./components/stockItem-add-edit.component";
 import StockItemsList from "./components/stockItem-list.component";
 
+import AddAdjustment from "./components/adjustment.component";
+import AddCount from "./components/count.component";
+
 class App extends Component {
   render() {
     return (
@@ -57,6 +60,10 @@ class App extends Component {
               {/* STOCKITEMS AddEdit */}
               <Route exact path="/stockItems/add" component={StockItem} />
               <Route path="/stockItems/edit/:id" component={StockItem} />
+
+              {/* ADJUSTMENT and COUNT */}
+              <Route path="/adjust/:id" component={AddAdjustment} />
+              <Route path="/count/:id" component={AddCount} />
 
             </Switch>
           </div>
